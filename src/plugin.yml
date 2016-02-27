@@ -1,0 +1,15 @@
+name: ChunkGuard
+version: 0.1a
+depend: [WorldGuard,WGCustomFlags,Vault]
+main: de.ysl3000.chunkguard.ChunkGuardPlugin
+commands:
+  adminbuy:
+    permission: chunkguard.adminbuy
+  cgitem:
+    permission: chunkguard.addItem
+  cginfo:
+    permission: chunkguard.info
+  buyItem:
+    permission: chunkguard.buyItem
+  cgmanage:
+    permission: chunkguard.manage
