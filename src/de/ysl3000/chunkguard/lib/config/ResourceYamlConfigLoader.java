@@ -12,8 +12,8 @@ public class ResourceYamlConfigLoader extends YamlConfigLoader
         if (has_resource_in_jar) {
             final InputStream defConfigStream = pl.getResource(file);
             if (defConfigStream != null) {
-                final YamlConfiguration defConfig = YamlConfiguration.loadConfiguration((Reader)new InputStreamReader(defConfigStream));
-                this.config.setDefaults((Configuration)defConfig);
+                final YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(defConfigStream));
+                this.config.setDefaults(defConfig);
                 this.config.options().copyDefaults(has_resource_in_jar);
                 this.saveConfig();
             }
