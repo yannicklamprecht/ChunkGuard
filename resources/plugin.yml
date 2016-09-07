@@ -1,6 +1,6 @@
 name: ChunkGuard
 version: 0.1a
-depend: [WorldGuard,WGCustomFlags,Vault]
+depend: [WorldGuard,Vault]
 main: de.ysl3000.chunkguard.ChunkGuardPlugin
 commands:
   adminbuy:
