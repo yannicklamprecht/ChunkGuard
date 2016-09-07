@@ -1,5 +1,6 @@
 package de.ysl3000.chunkguard.lib.interfaces;
 
+import com.sk89q.worldguard.protection.flags.Flag;
 import org.bukkit.*;
 import java.util.*;
 import com.sk89q.worldguard.protection.regions.*;
@@ -65,4 +66,7 @@ public interface IWorldGuardAdapter
     boolean generateChunk(final Chunk p0);
     
     boolean safeChanges(final World p0);
+
+    Flag fuzzyMatchFlag(String flag);
+
 }
