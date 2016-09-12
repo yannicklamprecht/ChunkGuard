@@ -37,8 +37,8 @@ public class Manage implements CommandExecutor, Listener
         this.itemStackmodifier = plugin.getItemStackmodifier();
         this.worldGuardAdapter = this.chunkGuardPlugin.getWorldGuardAdapter();
         this.config = plugin.getMenuConfig();
-        this.chunkGuardPlugin.getCommand("cgmanage").setExecutor((CommandExecutor)this);
-        this.chunkGuardPlugin.getServer().getPluginManager().registerEvents((Listener)this, (Plugin)this.chunkGuardPlugin);
+        this.chunkGuardPlugin.getCommand("cgmanage").setExecutor(this);
+        this.chunkGuardPlugin.getServer().getPluginManager().registerEvents(this, this.chunkGuardPlugin);
     }
     
     public boolean onCommand(final CommandSender commandSender, final Command command, final String s, final String[] strings) {
@@ -47,7 +47,7 @@ public class Manage implements CommandExecutor, Listener
             if (!this.worldGuardAdapter.getRegion(p.getLocation()).isPresent()) {
                 this.worldGuardAdapter.generateChunk(p.getLocation().getChunk());
             }
-            this.menu = Bukkit.createInventory((InventoryHolder)null, 9, "ChunkGuard-Men\u00fc");
+            this.menu = Bukkit.createInventory(null, 9, "ChunkGuard-Men\u00fc");
             if (this.worldGuardAdapter.getMembers(p.getLocation()).size() == 0 && !this.worldGuardAdapter.hasOwner(p.getLocation())) {
                 this.menu.setItem(0, this.itemStackmodifier.create(ChunkGuardMainItems.BUY.key, ItemStackmodifier.ItemState.ENABLED, this.config.BuyMenuName(), this.config.getBuyMenuDescription()));
                 p.openInventory(this.menu);

@@ -42,7 +42,7 @@ public class WorldGuardAdapter implements IWorldGuardAdapter {
         if (this.getRegion(chunk).isPresent()) {
             final ProtectedRegion region = this.getRegion(chunk).get();
             if (region.getFlag( DefaultFlag.BUYABLE) != null) {
-                return (boolean) region.getFlag( DefaultFlag.BUYABLE);
+                return region.getFlag( DefaultFlag.BUYABLE);
             }
         }
         return false;
