@@ -49,8 +49,8 @@ public class UserBuy implements Listener
                 switch (displayName) {
                     case "Akzeptieren": {
                         final Player p = (Player)event.getWhoClicked();
-                        if (this.buyingAdapter.buyFromBank((OfflinePlayer)p, p.getLocation())) {
-                            Bukkit.getServer().getPluginManager().callEvent((Event)new ChunkBuyFromServerEvent((OfflinePlayer)p, p.getLocation().getChunk()));
+                        if (this.buyingAdapter.buyFromBank(p, p.getLocation())) {
+                            Bukkit.getServer().getPluginManager().callEvent((Event)new ChunkBuyFromServerEvent(p, p.getLocation().getChunk()));
                             p.sendMessage(this.messageAdapter.youNowOwnThisChunk());
                             Bukkit.getServer().getPluginManager().callEvent((Event)new ChunkBuyFromServerEvent((OfflinePlayer)event.getWhoClicked(), event.getWhoClicked().getLocation().getChunk()));
                             break;

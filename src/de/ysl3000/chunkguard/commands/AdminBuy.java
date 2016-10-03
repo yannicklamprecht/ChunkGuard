@@ -25,7 +25,7 @@ public class AdminBuy implements CommandExecutor, Listener
     private IWorldGuardAdapter worldGuardAdapter;
     
     public AdminBuy(final ChunkGuardPlugin chunkGuardPlugin) {
-        this.enabledAdmin = new HashMap<UUID, SpeedContainer>();
+        this.enabledAdmin = new HashMap();
         this.maxSpeed = new SpeedContainer(0.04f, 0.4f);
         this.worldGuardAdapter = chunkGuardPlugin.getWorldGuardAdapter();
         this.chunkGuardPlugin = chunkGuardPlugin;

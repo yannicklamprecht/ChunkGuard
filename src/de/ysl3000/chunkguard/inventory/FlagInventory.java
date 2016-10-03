@@ -58,7 +58,7 @@ public class FlagInventory implements Listener
             final String state = clickedStack.getItemMeta().getDisplayName();
             final Optional<ProtectedRegion> region = this.worldGuardAdapter.getRegion(event.getWhoClicked().getLocation());
             if (region.isPresent()) {
-                final Flag flag = DefaultFlag.fuzzyMatchFlag(flagName);
+                final Flag flag = worldGuardAdapter.fuzzyMatchFlag(flagName);
                 if (flag instanceof StateFlag) {
                     final StateFlag flag2 = (StateFlag)flag;
                     region.get().setFlag((Flag)flag2, (Object)StateFlag.State.valueOf(state));
