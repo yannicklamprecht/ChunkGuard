@@ -2,7 +2,7 @@
     <properties>
         <!-- Fill in the right API version-->
         <csapi.version>3.8</csapi.version>
-        <minecraft.version>1.10</minecraft.version>
+        <minecraft.version>1.11</minecraft.version>
         <bukkit.api.version>R0.1</bukkit.api.version>
         <api.releasetype>SNAPSHOT</api.releasetype>
 
@@ -35,6 +35,7 @@
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
             <version>${minecraft.version}-${bukkit.api.version}-${api.releasetype}</version>
+            <scope>provided</scope>
         </dependency>
         <!-- Bungeecord api -->
         <dependency>
@@ -53,15 +54,17 @@
         </dependency>
 
         <dependency>
-            <groupId>com.sk89q</groupId>
-            <artifactId>WorldGuard</artifactId>
-            <version>6.1.2</version>
+            <groupId>com.sk89q.worldguard</groupId>
+            <artifactId>worldguard-legacy</artifactId>
+            <version>6.1.3-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
+
         <dependency>
-            <groupId>com.sk89q</groupId>
-            <artifactId>WorldEdit</artifactId>
-            <version>6.1</version>
-            <type>pom</type>
+            <groupId>com.sk89q.worldedit</groupId>
+            <artifactId>worldedit-bukkit</artifactId>
+            <version>6.1.4-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -83,6 +86,10 @@
             <url>http://nexus.hc.to/content/repositories/pub_releases</url>
         </repository>
 
+        <repository>
+            <id>sk89q.repo</id>
+            <url>http://maven.sk89q.com/repo/</url>
+        </repository>
     </repositories>
 
     <build>
