@@ -76,10 +76,7 @@
 
     </dependencies>
     <repositories>
-        <repository>
-            <id>cs</id>
-            <url>https://dev.craftstuebchen.de/repo/content/groups/alles/</url>
-        </repository>
+
 
         <repository>
             <id>vault-repo</id>
@@ -97,6 +94,12 @@
             <id>sk89q.repo</id>
             <url>http://maven.sk89q.com/repo/</url>
         </repository>
+
+        <repository>
+            <id>cs</id>
+            <url>https://dev.craftstuebchen.de/repo/content/groups/alles/</url>
+        </repository>
+
     </repositories>
 
     <build>
