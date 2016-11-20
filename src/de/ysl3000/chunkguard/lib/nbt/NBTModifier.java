@@ -9,8 +9,7 @@ public class NBTModifier implements INBTModifier
     public NBTModifier(final NBTTagCompound compound) {
         this.compound = compound;
     }
-    
-    @Override
+
     public NBTTagCompound getCompound() {
         return this.compound;
     }

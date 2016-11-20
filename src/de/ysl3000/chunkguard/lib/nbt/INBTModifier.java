@@ -1,7 +1,5 @@
 package de.ysl3000.chunkguard.lib.nbt;
 
-import net.minecraft.server.v1_11_R1.*;
-
 public interface INBTModifier
 {
     INBTModifier setShort(final String p0, final short p1);
@@ -21,8 +19,6 @@ public interface INBTModifier
     INBTModifier setIntArray(final String p0, final int[] p1);
     
     INBTModifier setBoolean(final String p0, final boolean p1);
-    
-    NBTTagCompound getCompound();
     
     byte getByte(final String p0);
     
