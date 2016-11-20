@@ -29,7 +29,7 @@
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
             <version>${minecraft.version}-${bukkit.api.version}-${api.releasetype}</version>
-            <type>pom</type>
+            <type>provided</type>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
