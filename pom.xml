@@ -27,13 +27,13 @@
         <!--Spigot API-->
         <dependency>
             <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
+            <artifactId>spigot</artifactId>
             <version>${minecraft.version}-${bukkit.api.version}-${api.releasetype}</version>
-            <scope>provided</scope>
+            <type>pom</type>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
+            <artifactId>spigot-api</artifactId>
             <version>${minecraft.version}-${bukkit.api.version}-${api.releasetype}</version>
             <scope>provided</scope>
         </dependency>
@@ -85,6 +85,13 @@
             <id>vault-repo</id>
             <url>http://nexus.hc.to/content/repositories/pub_releases</url>
         </repository>
+
+        <repository>
+            <id>spigot-mc</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+
+        </repository>
+
 
         <repository>
             <id>sk89q.repo</id>

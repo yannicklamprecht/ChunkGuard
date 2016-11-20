@@ -1,6 +1,6 @@
 package de.ysl3000.chunkguard.lib.nbt;
 
-import net.minecraft.server.v1_10_R1.*;
+import net.minecraft.server.v1_11_R1.*;
 
 public class NBTModifier implements INBTModifier
 {
