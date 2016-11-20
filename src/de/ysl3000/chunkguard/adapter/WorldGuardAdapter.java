@@ -1,6 +1,5 @@
 package de.ysl3000.chunkguard.adapter;
 
-import com.sk89q.worldedit.BlockVector;
 import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.domains.DefaultDomain;
@@ -10,15 +9,10 @@ import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.RegionGroup;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.managers.storage.StorageException;
-import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
-import de.ysl3000.chunkguard.ChunkGuardPlugin;
 import de.ysl3000.chunkguard.customflags.OverFlowFlag;
-import de.ysl3000.chunkguard.events.ChunkRegionCreateEvent;
-import de.ysl3000.chunkguard.events.MiniMapUpdateEvent;
 import de.ysl3000.chunkguard.lib.interfaces.IWorldGuardAdapter;
 import org.bukkit.*;
-import org.bukkit.event.Event;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -28,35 +22,28 @@ import java.util.UUID;
 public class WorldGuardAdapter implements IWorldGuardAdapter {
     private WorldGuardPlugin worldGuardPlugin;
 
-    public WorldGuardAdapter(final ChunkGuardPlugin plugin) {
-        this.worldGuardPlugin = plugin.getWG();
+    public WorldGuardAdapter(final WorldGuardPlugin plugin) {
+        this.worldGuardPlugin = plugin;
     }
 
     @Override
     public boolean isBuyable(final Location loc) {
-        return this.isBuyable(loc.getChunk());
-    }
 
-    @Override
-    public boolean isBuyable(final Chunk chunk) {
-        if (this.getRegion(chunk).isPresent()) {
-            final ProtectedRegion region = this.getRegion(chunk).get();
-            if (region.getFlag( DefaultFlag.BUYABLE) != null) {
-                return region.getFlag( DefaultFlag.BUYABLE);
+        if (this.getRegion(loc).isPresent()) {
+            final ProtectedRegion region = this.getRegion(loc).get();
+            if (region.getFlag(DefaultFlag.BUYABLE) != null) {
+                return region.getFlag(DefaultFlag.BUYABLE).booleanValue();
             }
         }
         return false;
     }
+
 
     @Override
     public boolean isOwner(final OfflinePlayer player, final Location location) {
         return this.getRegion(location).isPresent() && this.getRegion(location).get().isOwner(this.worldGuardPlugin.wrapOfflinePlayer(player));
     }
 
-    @Override
-    public boolean isOwner(final OfflinePlayer player, final Chunk chunk) {
-        return this.isOwner(player, chunk.getBlock(0, 0, 0).getLocation());
-    }
 
     @Override
     public boolean setOwner(final OfflinePlayer player, final Location location) {
@@ -67,21 +54,15 @@ public class WorldGuardAdapter implements IWorldGuardAdapter {
                 localPlayer = this.worldGuardPlugin.wrapPlayer(player.getPlayer());
             }
             domain.addPlayer(localPlayer);
-            this.getRegion(location).get().setOwners(domain);
-            return this.getRegion(location).get().isOwner(localPlayer);
+            Optional<ProtectedRegion> region = this.getRegion(location);
+            if (region.isPresent()) {
+                region.get().setOwners(domain);
+                return region.get().isOwner(localPlayer);
+            }
         }
         return false;
     }
 
-    @Override
-    public boolean setOwner(final OfflinePlayer player, final Chunk chunk) {
-        return this.setOwner(player, chunk.getBlock(0, 0, 0).getLocation());
-    }
-
-    @Override
-    public boolean cleanOwner(final Chunk chunk) {
-        return this.cleanOwner(chunk.getBlock(0, 0, 0).getLocation());
-    }
 
     @Override
     public boolean cleanOwner(final Location location) {
@@ -98,10 +79,6 @@ public class WorldGuardAdapter implements IWorldGuardAdapter {
         return this.getOwner(location).isPresent();
     }
 
-    @Override
-    public boolean hasOwner(final Chunk chunk) {
-        return this.hasOwner(chunk.getBlock(0, 0, 0).getLocation());
-    }
 
     @Override
     public boolean addMember(final OfflinePlayer player, final Location location) {
@@ -113,10 +90,6 @@ public class WorldGuardAdapter implements IWorldGuardAdapter {
         return false;
     }
 
-    @Override
-    public boolean addMember(final OfflinePlayer player, final Chunk chunk) {
-        return this.addMember(player, chunk.getBlock(0, 0, 0).getLocation());
-    }
 
     @Override
     public boolean removeMember(final OfflinePlayer player, final Location location) {
@@ -152,10 +125,6 @@ public class WorldGuardAdapter implements IWorldGuardAdapter {
         });
     }
 
-    @Override
-    public boolean removeMember(final OfflinePlayer player, final Chunk chunk) {
-        return this.removeMember(player, chunk.getBlock(0, 0, 0).getLocation());
-    }
 
     @Override
     public boolean cleanMembers(final Location location) {
@@ -166,10 +135,6 @@ public class WorldGuardAdapter implements IWorldGuardAdapter {
         return false;
     }
 
-    @Override
-    public boolean cleanMembers(final Chunk chunk) {
-        return this.cleanMembers(chunk.getBlock(0, 0, 0).getLocation());
-    }
 
     @Override
     public Set<OfflinePlayer> getMembers(final Location location) {
@@ -181,15 +146,10 @@ public class WorldGuardAdapter implements IWorldGuardAdapter {
     }
 
     @Override
-    public Set<OfflinePlayer> getMembers(final Chunk chunk) {
-        return this.getMembers(chunk.getBlock(0, 0, 0).getLocation());
-    }
-
-    @Override
     public Optional<OfflinePlayer> getOwner(final Location location) {
         Optional<OfflinePlayer> owner = Optional.empty();
         if (this.getRegion(location).isPresent()) {
-            final Optional<UUID> ownerA = (Optional<UUID>) this.getRegion(location).get().getOwners().getUniqueIds().stream().findFirst();
+            final Optional<UUID> ownerA = this.getRegion(location).get().getOwners().getUniqueIds().stream().findFirst();
             if (ownerA.isPresent()) {
                 owner = Optional.of(Bukkit.getOfflinePlayer((UUID) ownerA.get()));
             }
@@ -197,10 +157,6 @@ public class WorldGuardAdapter implements IWorldGuardAdapter {
         return owner;
     }
 
-    @Override
-    public Optional<OfflinePlayer> getOwner(final Chunk chunk) {
-        return this.getOwner(chunk.getBlock(0, 0, 0).getLocation());
-    }
 
     @Override
     public Optional<ProtectedRegion> getRegion(final Location location) {
@@ -209,36 +165,28 @@ public class WorldGuardAdapter implements IWorldGuardAdapter {
         return regions.getRegions().stream().findFirst();
     }
 
-    @Override
-    public Optional<ProtectedRegion> getRegion(final Chunk chunk) {
-        return this.getRegion(chunk.getBlock(0, 0, 0).getLocation());
-    }
 
     @Override
     public boolean cleanFlags(final Location location) {
         return this.cleanFlags(this.getRegion(location));
     }
 
-    @Override
-    public boolean cleanFlags(final Chunk chunk) {
-        return this.cleanFlags(this.getRegion(chunk));
-    }
 
     @Override
     public boolean cleanFlags(final Optional<ProtectedRegion> region) {
         if (region.isPresent()) {
             final ProtectedRegion rg = region.get();
             this.setFlags(rg, RegionGroup.NON_MEMBERS, StateFlag.State.DENY);
-            rg.setFlag( DefaultFlag.LAVA_FIRE, StateFlag.State.DENY);
-            rg.setFlag( DefaultFlag.FIRE_SPREAD, StateFlag.State.DENY);
-            rg.setFlag( DefaultFlag.OTHER_EXPLOSION, StateFlag.State.DENY);
-            rg.setFlag( DefaultFlag.GHAST_FIREBALL, StateFlag.State.DENY);
-            rg.setFlag( DefaultFlag.ENDERDRAGON_BLOCK_DAMAGE, StateFlag.State.DENY);
-            rg.setFlag( DefaultFlag.CREEPER_EXPLOSION, StateFlag.State.DENY);
-            rg.setFlag( DefaultFlag.BUYABLE, true);
-            rg.setFlag( DefaultFlag.PVP, StateFlag.State.DENY);
-            rg.setFlag( OverFlowFlag.LAVA_OVERFLOW, StateFlag.State.DENY);
-            rg.setFlag( OverFlowFlag.WATER_OVERFLOW, StateFlag.State.DENY);
+            rg.setFlag(DefaultFlag.LAVA_FIRE, StateFlag.State.DENY);
+            rg.setFlag(DefaultFlag.FIRE_SPREAD, StateFlag.State.DENY);
+            rg.setFlag(DefaultFlag.OTHER_EXPLOSION, StateFlag.State.DENY);
+            rg.setFlag(DefaultFlag.GHAST_FIREBALL, StateFlag.State.DENY);
+            rg.setFlag(DefaultFlag.ENDERDRAGON_BLOCK_DAMAGE, StateFlag.State.DENY);
+            rg.setFlag(DefaultFlag.CREEPER_EXPLOSION, StateFlag.State.DENY);
+            rg.setFlag(DefaultFlag.BUYABLE, true);
+            rg.setFlag(DefaultFlag.PVP, StateFlag.State.DENY);
+            rg.setFlag(OverFlowFlag.LAVA_OVERFLOW, StateFlag.State.DENY);
+            rg.setFlag(OverFlowFlag.WATER_OVERFLOW, StateFlag.State.DENY);
             return true;
         }
         return false;
@@ -254,23 +202,6 @@ public class WorldGuardAdapter implements IWorldGuardAdapter {
     }
 
     @Override
-    public boolean generateChunk(final Chunk chunk) {
-        if (this.getRegion(chunk).isPresent()) {
-            Bukkit.getPluginManager().callEvent((Event) new MiniMapUpdateEvent(chunk));
-            return false;
-        }
-        final Location min = chunk.getBlock(0, 0, 0).getLocation();
-        final Location max = chunk.getBlock(15, 255, 15).getLocation();
-        final String name = "c_" + chunk.getX() + "_" + chunk.getZ();
-        final ProtectedRegion rg = new ProtectedCuboidRegion(name, new BlockVector(min.getBlockX(), min.getBlockY(), min.getBlockZ()), new BlockVector(max.getBlockX(), max.getBlockY(), max.getBlockZ()));
-        this.cleanFlags(Optional.of(rg));
-        this.addRegion(Optional.of(rg), chunk.getWorld());
-        this.safeChanges(chunk.getWorld());
-        Bukkit.getServer().getPluginManager().callEvent((Event) new ChunkRegionCreateEvent(chunk));
-        return true;
-    }
-
-    @Override
     public boolean safeChanges(final World world) {
         try {
             this.worldGuardPlugin.getRegionManager(world).saveChanges();
@@ -282,27 +213,28 @@ public class WorldGuardAdapter implements IWorldGuardAdapter {
 
     @Override
     public Flag fuzzyMatchFlag(String flag) {
-        return DefaultFlag.fuzzyMatchFlag(worldGuardPlugin.getFlagRegistry(),flag);
+        return DefaultFlag.fuzzyMatchFlag(worldGuardPlugin.getFlagRegistry(), flag);
     }
 
     private void setFlags(final ProtectedRegion rg, final RegionGroup g, final StateFlag.State state) {
-        rg.setFlag( DefaultFlag.INTERACT,  state);
-        rg.setFlag( DefaultFlag.INTERACT.getRegionGroupFlag(),  g);
-        rg.setFlag( DefaultFlag.BLOCK_BREAK,  state);
-        rg.setFlag( DefaultFlag.BLOCK_BREAK.getRegionGroupFlag(),  g);
-        rg.setFlag( DefaultFlag.BUILD,  state);
-        rg.setFlag( DefaultFlag.BUILD.getRegionGroupFlag(),  g);
-        rg.setFlag( DefaultFlag.DESTROY_VEHICLE,  state);
-        rg.setFlag( DefaultFlag.DESTROY_VEHICLE.getRegionGroupFlag(),  g);
-        rg.setFlag( DefaultFlag.BLOCK_PLACE,  state);
-        rg.setFlag( DefaultFlag.BLOCK_PLACE.getRegionGroupFlag(),  g);
-        rg.setFlag( DefaultFlag.USE,  state);
-        rg.setFlag( DefaultFlag.USE.getRegionGroupFlag(),  g);
-        rg.setFlag( DefaultFlag.ENTITY_ITEM_FRAME_DESTROY,  state);
-        rg.setFlag( DefaultFlag.ENTITY_ITEM_FRAME_DESTROY.getRegionGroupFlag(),  g);
-        rg.setFlag( DefaultFlag.ENTITY_PAINTING_DESTROY,  state);
-        rg.setFlag( DefaultFlag.ENTITY_PAINTING_DESTROY.getRegionGroupFlag(),  g);
-        rg.setFlag( DefaultFlag.CHEST_ACCESS,  state);
-        rg.setFlag( DefaultFlag.CHEST_ACCESS.getRegionGroupFlag(),  g);
+        rg.setFlag(DefaultFlag.INTERACT, state);
+        rg.setFlag(DefaultFlag.INTERACT.getRegionGroupFlag(), g);
+        rg.setFlag(DefaultFlag.BLOCK_BREAK, state);
+        rg.setFlag(DefaultFlag.BLOCK_BREAK.getRegionGroupFlag(), g);
+        rg.setFlag(DefaultFlag.BUILD, state);
+        rg.setFlag(DefaultFlag.BUILD.getRegionGroupFlag(), g);
+        rg.setFlag(DefaultFlag.DESTROY_VEHICLE, state);
+        rg.setFlag(DefaultFlag.DESTROY_VEHICLE.getRegionGroupFlag(), g);
+        rg.setFlag(DefaultFlag.BLOCK_PLACE, state);
+        rg.setFlag(DefaultFlag.BLOCK_PLACE.getRegionGroupFlag(), g);
+        rg.setFlag(DefaultFlag.USE, state);
+        rg.setFlag(DefaultFlag.USE.getRegionGroupFlag(), g);
+        rg.setFlag(DefaultFlag.ENTITY_ITEM_FRAME_DESTROY, state);
+        rg.setFlag(DefaultFlag.ENTITY_ITEM_FRAME_DESTROY.getRegionGroupFlag(), g);
+        rg.setFlag(DefaultFlag.ENTITY_PAINTING_DESTROY, state);
+        rg.setFlag(DefaultFlag.ENTITY_PAINTING_DESTROY.getRegionGroupFlag(), g);
+        rg.setFlag(DefaultFlag.CHEST_ACCESS, state);
+        rg.setFlag(DefaultFlag.CHEST_ACCESS.getRegionGroupFlag(), g);
     }
+
 }

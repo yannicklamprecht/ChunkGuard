@@ -22,7 +22,7 @@ public class AdminBuy implements CommandExecutor, Listener
     private SpeedContainer maxSpeed;
     private ChunkGuardPlugin chunkGuardPlugin;
     private Config config;
-    private IWorldGuardAdapter worldGuardAdapter;
+    private IChunkGuardAdapter worldGuardAdapter;
     
     public AdminBuy(final ChunkGuardPlugin chunkGuardPlugin) {
         this.enabledAdmin = new HashMap();

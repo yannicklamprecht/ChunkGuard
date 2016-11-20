@@ -10,7 +10,7 @@ import java.util.*;
 public class BuyingAdapter implements IBuyingAdapter
 {
     private ChunkGuardPlugin plugin;
-    private IWorldGuardAdapter worldGuardAdapter;
+    private IChunkGuardAdapter worldGuardAdapter;
     private IMoneyAdapter moneyAdapter;
     private Config config;
     

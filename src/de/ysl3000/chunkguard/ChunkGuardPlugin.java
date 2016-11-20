@@ -18,7 +18,7 @@ public class ChunkGuardPlugin extends JavaPlugin implements Listener
     private WorldGuardPlugin worldGuardPlugin;
     private Config config;
     private IMoneyAdapter money;
-    private IWorldGuardAdapter worldGuardAdapter;
+    private IChunkGuardAdapter worldGuardAdapter;
     private IMessageAdapter messageAdapter;
     private IBuyingAdapter transaction;
     private NBTTagAPI nbtTagAPI;
@@ -33,7 +33,7 @@ public class ChunkGuardPlugin extends JavaPlugin implements Listener
         this.itemStackmodifier = new ItemStackmodifier(this);
         this.messageAdapter = new LanguageConfig();
         this.worldGuardPlugin = WGBukkit.getPlugin();
-        this.worldGuardAdapter = new WorldGuardAdapter(this);
+        this.worldGuardAdapter = new ChunkGuardAdapter(this.getWG());
         this.money = new MoneyAdapter(this,this.config);
         this.transaction = new BuyingAdapter(this);
         new FlagRegistry(this.worldGuardPlugin).registerFlags();
@@ -69,7 +69,7 @@ public class ChunkGuardPlugin extends JavaPlugin implements Listener
         return this.worldGuardPlugin;
     }
     
-    public IWorldGuardAdapter getWorldGuardAdapter() {
+    public IChunkGuardAdapter getWorldGuardAdapter() {
         return this.worldGuardAdapter;
     }
     

@@ -1,7 +1,7 @@
 package de.ysl3000.chunkguard.commands;
 
 import de.ysl3000.chunkguard.ChunkGuardPlugin;
-import de.ysl3000.chunkguard.lib.interfaces.IWorldGuardAdapter;
+import de.ysl3000.chunkguard.lib.interfaces.IChunkGuardAdapter;
 import de.ysl3000.chunkguard.lib.inventory.ItemStackmodifier;
 import de.ysl3000.chunkguard.lib.inventory.MenuInventoryConfig;
 import org.bukkit.Bukkit;
@@ -16,9 +16,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -27,7 +25,7 @@ public class Manage implements CommandExecutor, Listener
 {
     private final String invName = "ChunkGuard-Men\u00fc";
     private ChunkGuardPlugin chunkGuardPlugin;
-    private IWorldGuardAdapter worldGuardAdapter;
+    private IChunkGuardAdapter worldGuardAdapter;
     private Inventory menu;
     private ItemStackmodifier itemStackmodifier;
     private MenuInventoryConfig config;
