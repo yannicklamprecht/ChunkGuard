@@ -23,7 +23,7 @@ public class NBTTagAPI {
 
     public org.bukkit.inventory.ItemStack setNBT(final org.bukkit.inventory.ItemStack itemStack, final INBTModifier inbtModifier) {
         final ItemStack its = CraftItemStack.asNMSCopy(itemStack);
-        its.setTag(inbtModifier.getCompound());
+        its.setTag(((NBTModiifier)inbtModifier).getCompound());
         return CraftItemStack.asCraftMirror(its);
     }
 
