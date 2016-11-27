@@ -29,13 +29,11 @@
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
             <version>${minecraft.version}-${bukkit.api.version}-${api.releasetype}</version>
-            <type>provided</type>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>${minecraft.version}-${bukkit.api.version}-${api.releasetype}</version>
-            <scope>provided</scope>
         </dependency>
         <!-- Bungeecord api -->
         <dependency>
@@ -77,21 +75,19 @@
     </dependencies>
     <repositories>
 
-    <repository>
+        <repository>
             <id>cs</id>
-            <url>https://dev.craftstuebchen.de/repo/content/groups/alles/</url>
+            <url>https://dev.craftstuebchen.de/repo/content/groups/csalles/</url>
         </repository>
         <repository>
             <id>vault-repo</id>
             <url>http://nexus.hc.to/content/repositories/pub_releases</url>
         </repository>
-
-        <!--<repository>
-            <id>spigot-mc</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>-->
-
-
+    
+        <repository>
+                <id>spigot-mc</id>
+                <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
         <repository>
             <id>sk89q.repo</id>
             <url>http://maven.sk89q.com/repo/</url>
