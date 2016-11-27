@@ -2,7 +2,7 @@ stages:
   - build
 
 before_script:
-  - "mvn clean"
+  - "mvn clean install -U"
 
 test:
   stage: build
