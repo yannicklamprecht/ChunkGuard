@@ -77,7 +77,10 @@
     </dependencies>
     <repositories>
 
-
+    <repository>
+            <id>cs</id>
+            <url>https://dev.craftstuebchen.de/repo/content/groups/alles/</url>
+        </repository>
         <repository>
             <id>vault-repo</id>
             <url>http://nexus.hc.to/content/repositories/pub_releases</url>
@@ -94,10 +97,7 @@
             <url>http://maven.sk89q.com/repo/</url>
         </repository>
 
-        <repository>
-            <id>cs</id>
-            <url>https://dev.craftstuebchen.de/repo/content/groups/alles/</url>
-        </repository>
+        
 
     </repositories>
 
