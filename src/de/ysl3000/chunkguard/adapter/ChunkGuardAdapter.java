@@ -1,6 +1,5 @@
 package de.ysl3000.chunkguard.adapter;
 
-import com.sk89q.worldedit.BlockVector;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
@@ -8,6 +7,7 @@ import de.ysl3000.chunkguard.lib.interfaces.IChunkGuardAdapter;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import com.sk89q.worldedit.BlockVector;
 
 import java.util.Optional;
 import java.util.Set;
@@ -96,6 +96,7 @@ public class ChunkGuardAdapter extends WorldGuardAdapter implements IChunkGuardA
         final Location max = chunk.getBlock(15, 255, 15).getLocation();
         final String name = "c_" + chunk.getX() + "_" + chunk.getZ();
         final ProtectedRegion rg = new ProtectedCuboidRegion(name, new BlockVector(min.getBlockX(), min.getBlockY(), min.getBlockZ()), new BlockVector(max.getBlockX(), max.getBlockY(), max.getBlockZ()));
+
         this.cleanFlags(Optional.of(rg));
         this.addRegion(Optional.of(rg), chunk.getWorld());
         this.safeChanges(chunk.getWorld());
