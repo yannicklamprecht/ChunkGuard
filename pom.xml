@@ -3,7 +3,6 @@
         <!-- Fill in the right API version-->
         <csapi.version>3.13</csapi.version>
         <minecraft.version>1.14.1</minecraft.version>
-        <bungee.version>1.11</bungee.version>
         <bukkit.api.version>R0.1</bukkit.api.version>
         <api.releasetype>SNAPSHOT</api.releasetype>
 
@@ -28,14 +27,6 @@
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>${minecraft.version}-${bukkit.api.version}-${api.releasetype}</version>
-        </dependency>
-        <!-- Bungeecord api -->
-        <dependency>
-            <groupId>net.md-5</groupId>
-            <artifactId>bungeecord-api</artifactId>
-            <version>${bungee.version}-${api.releasetype}</version>
-            <type>jar</type>
-            <scope>provided</scope>
         </dependency>
         <!-- we -->
         <dependency>
